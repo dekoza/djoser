@@ -1,7 +1,7 @@
 from django.conf.urls import include, url
 from django.contrib.auth import get_user_model
 
-from rest_framework.routers import DefaultRouter, DynamicListRoute, Route
+from rest_framework.routers import DefaultRouter, Route
 
 from djoser import views
 

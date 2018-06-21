@@ -179,7 +179,7 @@ class PasswordUpdateSerializer(PasswordSerializer, CurrentPasswordSerializer):
 
 
 class PasswordUpdateRetypeSerializer(PasswordRetypeSerializer,
-                                  CurrentPasswordSerializer):
+                                     CurrentPasswordSerializer):
     pass
 
 
@@ -198,8 +198,7 @@ class UserDeleteSerializer(CurrentPasswordSerializer):
 
 
 class UsernameUpdateSerializer(serializers.ModelSerializer,
-                            CurrentPasswordSerializer):
-
+                               CurrentPasswordSerializer):
     class Meta(object):
         model = User
         fields = (User.USERNAME_FIELD, 'current_password')
