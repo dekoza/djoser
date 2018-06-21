@@ -1,11 +1,19 @@
 from django.conf.urls import include, url
 from django.contrib.auth import get_user_model
+import rest_framework
 
 from rest_framework.routers import DefaultRouter, Route
 
 from djoser import views
 
 User = get_user_model()
+
+
+def drf_compat(detail=False):
+    drf_ver = tuple(int(i) for i in rest_framework.__version__.split('.'))
+    if drf_ver >= (3, 8):
+        return {'detail': detail}
+    return {}
 
 
 class DjoserRouter(DefaultRouter):
@@ -25,7 +33,8 @@ class DjoserRouter(DefaultRouter):
                 'put': 'update',
             },
             name='{basename}-instance',
-            initkwargs={'suffix': 'Instance'}
+            initkwargs={'suffix': 'Instance'},
+            **drf_compat(detail=True)
         ))
         self.routes.insert(0, Route(
             url=r'^{prefix}{trailing_slash}$',
@@ -34,7 +43,8 @@ class DjoserRouter(DefaultRouter):
                 'post': 'create',
             },
             name='{basename}-instance',
-            initkwargs={'suffix': 'Instance'}
+            initkwargs={'suffix': 'Instance'},
+            **drf_compat(detail=True)
         ))
 
     def _register_urls(self, include_token_urls):
@@ -83,7 +93,6 @@ class DjoserRouter(DefaultRouter):
 
 
 router = DjoserRouter()
-
 
 urlpatterns = [
     url(r'^', include(router.urls)),

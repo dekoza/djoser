@@ -41,8 +41,7 @@ Features In Short
 * Custom User Model Support
 * RESTful
 
-Djoser works with Python 2.7 and 3.4-3.7. It is based on both Django (1.11, 2.0) and
-Django REST Framework (3.7).
+Djoser works with Python 2.7 and 3.4-3.7, Django 1.11 and 2.0 and Django REST Framework 3.7-3.8.
 
 .. toctree::
     :maxdepth: 2

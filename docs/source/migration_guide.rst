@@ -3,7 +3,7 @@ Migration Guide
 ===============
 
 ----------------
-Migrating to 1.0
+Migrating to 2.0
 ----------------
 
 The stable release has introduced a number of backward incompatible changes and
