@@ -6,5 +6,5 @@ from djoser.urls import DjoserRouter
 router = DjoserRouter(include_token_urls=True)
 
 urlpatterns = (
-    url(r'^', include(router.urls)),
+    url(r'^auth/', include(router.urls)),
 )

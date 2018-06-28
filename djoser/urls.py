@@ -21,79 +21,38 @@ class DjoserRouter(DefaultRouter):
         super(DjoserRouter, self).__init__()
         self.trailing_slash = '/?'
 
-        self._insert_routes()
         self._register_urls(include_token_urls)
 
-    def _insert_routes(self):
-        self.routes.insert(0, Route(
-            url=r'^{prefix}{trailing_slash}$',
-            mapping={
-                'delete': 'remove_user',
-                'get': 'me',
-                'put': 'update',
-            },
-            name='{basename}-instance',
-            initkwargs={'suffix': 'Instance'},
-            **drf_compat(detail=True)
-        ))
-        self.routes.insert(0, Route(
-            url=r'^{prefix}{trailing_slash}$',
-            mapping={
-                'delete': 'remove_token',
-                'post': 'create',
-            },
-            name='{basename}-instance',
-            initkwargs={'suffix': 'Instance'},
-            **drf_compat(detail=True)
-        ))
-
     def _register_urls(self, include_token_urls):
-        if include_token_urls:
-            self.register(
-                r'^token',
-                views.TokenViewSet,
-                base_name='token',
-            )
-
+        # if include_token_urls:
         self.register(
-            r'^user/{}'.format(User.USERNAME_FIELD),
-            views.UsernameUpdateViewSet,
-            base_name='username-update',
+            r'tokens',
+            views.TokenViewSet,
+            base_name='token',
         )
         self.register(
-            r'^user/password',
+            r'users',
+            views.UsersViewSet,
+            base_name='user'
+        )
+        self.register(
+            r'password/update',
             views.PasswordUpdateViewSet,
             base_name='password-update',
         )
         self.register(
-            r'^password/reset',
+            r'password/reset',
             views.PasswordResetViewSet,
             base_name='password-reset',
         )
         self.register(
-            r'^password/reset/confirm',
+            r'password/confirm',
             views.PasswordResetConfirmViewSet,
-            base_name='password-reset-confirm',
+            base_name='password-confirm',
         )
-        self.register(
-            r'^user',
-            views.UserViewSet,
-            base_name='user',
-        )
-        self.register(
-            r'^users',
-            views.UsersViewSet,
-            base_name='users'
-        )
-        self.register(
-            r'^users/activate',
-            views.UserActivateViewSet,
-            base_name='user-activate',
-        )
-
 
 router = DjoserRouter()
 
 urlpatterns = [
-    url(r'^', include(router.urls)),
+    url(r'', include(router.urls)),
 ]

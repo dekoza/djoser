@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from rest_framework import permissions, status, viewsets
+from rest_framework.decorators import list_route, permission_classes as permclasses
 from rest_framework.response import Response
 
 from djoser.conf import settings
@@ -12,18 +13,19 @@ def run_pipeline(request, steps):
 
 
 class UsersViewSet(viewsets.ViewSet):
-    permission_classes = [permissions.AllowAny]
+    def get_permissions(self):
+        if self.action in ['create', 'activate']:
+            return [permissions.AllowAny()]
+        return [permissions.IsAuthenticated()]
 
+    @permclasses([permissions.AllowAny])
     def create(self, request, *args, **kwargs):
         steps = settings.PIPELINES['user_create']
         response_data = run_pipeline(request, steps)
         return Response(response_data, status=status.HTTP_201_CREATED)
 
-
-class UserViewSet(viewsets.ViewSet):
-    permission_classes = [permissions.IsAuthenticated]
-
-    def me(self, request, *args, **kwargs):
+    def retrieve(self, request, *args, **kwargs):
+        # TODO: this should allow to get a particular user
         steps = settings.PIPELINES['user_detail']
         response_data = run_pipeline(request, steps)
         return Response(response_data, status=status.HTTP_200_OK)
@@ -33,26 +35,27 @@ class UserViewSet(viewsets.ViewSet):
         response_data = run_pipeline(request, steps)
         return Response(response_data, status=status.HTTP_200_OK)
 
-    def remove_user(self, request, *args, **kwargs):
+    def partial_update(self, *args, **kwargs):
+        return self.update(*args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
         steps = settings.PIPELINES['user_delete']
         run_pipeline(request, steps)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+    @list_route(methods=['GET', 'DELETE'])
+    def me(self, *args, **kwargs):
+        return self.retrieve(*args, **kwargs)
 
-class UserActivateViewSet(viewsets.ViewSet):
-    permission_classes = [permissions.AllowAny]
-
-    def create(self, request, *args, **kwargs):
-        steps = settings.PIPELINES['user_activate']
+    @list_route(methods=['POST'])
+    def change_username(self, request, *args, **kwargs):
+        steps = settings.PIPELINES['username_update']
         run_pipeline(request, steps)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-
-class UsernameUpdateViewSet(viewsets.ViewSet):
-    permission_classes = [permissions.IsAuthenticated]
-
-    def create(self, request, *args, **kwargs):
-        steps = settings.PIPELINES['username_update']
+    @list_route(methods=['POST'])
+    def activate(self, request, *args, **kwargs):
+        steps = settings.PIPELINES['user_activate']
         run_pipeline(request, steps)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -88,15 +91,14 @@ class TokenViewSet(viewsets.ViewSet):
     def get_permissions(self):
         if self.action == 'create':
             return [permissions.AllowAny()]
-        else:
-            return [permissions.IsAuthenticated()]
+        return [permissions.IsAuthenticated()]
 
     def create(self, request, *args, **kwargs):
         steps = settings.PIPELINES['token_create']
         response_data = run_pipeline(request, steps)
         return Response(response_data, status=status.HTTP_201_CREATED)
 
-    def remove_token(self, request, *args, **kwargs):
+    def destroy(self, request, *args, **kwargs):
         steps = settings.PIPELINES['token_delete']
         run_pipeline(request, steps)
         return Response(status=status.HTTP_204_NO_CONTENT)

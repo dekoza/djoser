@@ -31,6 +31,12 @@ interface.
 
 Developed by `SUNSCRAPERS <http://sunscrapers.com/>`_ with passion & patience.
 
+----
+Note
+----
+
+This is the documentation for **version 2.0** of djoser. Documentation for version 1 is also available.
+
 -----------------
 Features In Short
 -----------------
@@ -41,7 +47,7 @@ Features In Short
 * Custom User Model Support
 * RESTful
 
-Djoser works with Python 2.7 and 3.4-3.7, Django 1.11 and 2.0 and Django REST Framework 3.7-3.8.
+Djoser works with Python 2.7 and 3.4-3.7, Django 1.11 and 2.0, and Django REST Framework 3.7-3.8.
 
 .. toctree::
     :maxdepth: 2
@@ -49,7 +55,7 @@ Djoser works with Python 2.7 and 3.4-3.7, Django 1.11 and 2.0 and Django REST Fr
 
     basics/license
     basics/installation
-    basics/authentication_backends
+    .. basics/authentication_backends
 
 .. toctree::
     :maxdepth: 2

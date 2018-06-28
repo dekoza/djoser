@@ -15,17 +15,17 @@ default_settings = {
         'djoser.pipelines.base.default_view_pipeline_adapter',
 
     'PIPELINES': {
-        'user_activate': [
-            'djoser.pipelines.user_activate.serialize_request',
-            'djoser.pipelines.user_activate.perform',
-            'djoser.pipelines.user_activate.signal',
-            'djoser.pipelines.email.confirmation_email',
-        ],
         'user_create': [
             'djoser.pipelines.user_create.serialize_request',
             'djoser.pipelines.user_create.perform',
             'djoser.pipelines.user_create.serialize_instance',
             'djoser.pipelines.user_create.signal',
+            'djoser.pipelines.email.confirmation_email',
+        ],
+        'user_activate': [
+            'djoser.pipelines.user_activate.serialize_request',
+            'djoser.pipelines.user_activate.perform',
+            'djoser.pipelines.user_activate.signal',
             'djoser.pipelines.email.confirmation_email',
         ],
         'user_detail': [

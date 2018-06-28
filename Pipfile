@@ -1,11 +1,8 @@
 [[source]]
-
 url = "https://pypi.python.org/simple"
 verify_ssl = true
 
-
 [dev-packages]
-
 coverage = "*"
 pytest = "*"
 pytest-cov = "*"
@@ -19,11 +16,13 @@ ipython = "*"
 ipdb = "*"
 pytest-pythonpath = "*"
 
-
 [packages]
-
 djangorestframework = "*"
 djangorestframework-jwt = "*"
 django = "*"
 django-templated-mail = "*"
 social-auth-app-django = "*"
+sphinx = "*"
+ipdb = "*"
+pytest = "*"
+pytest-django = "*"

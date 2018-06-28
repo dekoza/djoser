@@ -29,14 +29,21 @@ Developed by `SUNSCRAPERS <http://sunscrapers.com/>`_ with passion & patience.
 .. image:: https://asciinema.org/a/FBTYjfDPUr99jxZqbLOZhh9Pd.png
   :target: https://asciinema.org/a/FBTYjfDPUr99jxZqbLOZhh9Pd?autoplay=1&speed=2
 
+Documentation
+=============
+
+Full documentation is available at
+`http://djoser.readthedocs.io <http://djoser.readthedocs.io>`_
+and in ``docs`` directory.
+
 Requirements
 ============
 
 To be able to run **djoser** you have to meet following requirements:
 
-- Python (2.7, 3.4, 3.5, 3.6)
-- Django (1.10, 1.11)
-- Django REST Framework (3.7)
+- Python (2.7, 3.4, 3.5, 3.6, 3.7)
+- Django (1.11, 2.0)
+- Django REST Framework (3.7, 3.8)
 
 Installation
 ============
@@ -51,12 +58,6 @@ And continue with the steps described at
 `configuration <http://djoser.readthedocs.io/en/latest/getting_started.html#configuration>`_
 guide.
 
-Documentation
-=============
-
-Documentation is available to study at
-`http://djoser.readthedocs.io <http://djoser.readthedocs.io>`_
-and in ``docs`` directory.
 
 Contributing and development
 ============================
