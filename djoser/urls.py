@@ -2,7 +2,7 @@ from django.conf.urls import include, url
 from django.contrib.auth import get_user_model
 import rest_framework
 
-from rest_framework.routers import DefaultRouter, Route
+from rest_framework.routers import DefaultRouter
 
 from djoser import views
 
@@ -35,24 +35,16 @@ class DjoserRouter(DefaultRouter):
             views.UsersViewSet,
             base_name='user'
         )
-        self.register(
-            r'password/update',
-            views.PasswordUpdateViewSet,
-            base_name='password-update',
-        )
-        self.register(
-            r'password/reset',
-            views.PasswordResetViewSet,
-            base_name='password-reset',
-        )
-        self.register(
-            r'password/confirm',
-            views.PasswordResetConfirmViewSet,
-            base_name='password-confirm',
-        )
+
 
 router = DjoserRouter()
 
 urlpatterns = [
-    url(r'', include(router.urls)),
+    url(r'^password/update/?$',
+        views.PasswordUpdateView.as_view(), name='password-update'),
+    url(r'^password/reset/?$',
+        views.PasswordResetView.as_view(), name='password-reset'),
+    url(r'^password/confirm/?$',
+        views.PasswordResetConfirmView.as_view(), name='password-confirm'),
+    url(r'^', include(router.urls)),
 ]

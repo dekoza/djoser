@@ -1,10 +1,7 @@
 from django.conf.urls import url, include
 
-from djoser.urls import DjoserRouter
-
-
-router = DjoserRouter(include_token_urls=True)
+import djoser.urls
 
 urlpatterns = (
-    url(r'^auth/', include(router.urls)),
+    url(r'^auth/', include(djoser.urls)),
 )

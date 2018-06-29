@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
-from rest_framework import permissions, status, viewsets
-from rest_framework.decorators import list_route, permission_classes as permclasses
+from rest_framework import permissions, status, viewsets, views
+from rest_framework.decorators import list_route
 from rest_framework.response import Response
 
 from djoser.conf import settings
@@ -18,7 +18,6 @@ class UsersViewSet(viewsets.ViewSet):
             return [permissions.AllowAny()]
         return [permissions.IsAuthenticated()]
 
-    @permclasses([permissions.AllowAny])
     def create(self, request, *args, **kwargs):
         steps = settings.PIPELINES['user_create']
         response_data = run_pipeline(request, steps)
@@ -60,28 +59,28 @@ class UsersViewSet(viewsets.ViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class PasswordUpdateViewSet(viewsets.ViewSet):
+class PasswordUpdateView(views.APIView):
     permission_classes = [permissions.IsAuthenticated]
 
-    def create(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         steps = settings.PIPELINES['password_update']
         run_pipeline(request, steps)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class PasswordResetViewSet(viewsets.ViewSet):
+class PasswordResetView(views.APIView):
     permission_classes = [permissions.AllowAny]
 
-    def create(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         steps = settings.PIPELINES['password_reset']
         run_pipeline(request, steps)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class PasswordResetConfirmViewSet(viewsets.ViewSet):
+class PasswordResetConfirmView(views.APIView):
     permission_classes = [permissions.AllowAny]
 
-    def create(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         steps = settings.PIPELINES['password_reset_confirm']
         run_pipeline(request, steps)
         return Response(status=status.HTTP_204_NO_CONTENT)

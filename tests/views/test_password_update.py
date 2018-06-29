@@ -13,7 +13,7 @@ def test_valid_password_update(test_user):
     client = APIClient()
     client.force_login(test_user)
     response = client.post(
-        path=reverse('password-update-list'),
+        path=reverse('password-update'),
         data={
             'current_password': 'testing123',
             'new_password': 'new-password123'

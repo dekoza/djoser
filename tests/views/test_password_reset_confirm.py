@@ -15,7 +15,7 @@ User = get_user_model()
 def test_valid_password_reset_confirm(test_user):
     client = APIClient()
     response = client.post(
-        path=reverse('password-confirm-list'),
+        path=reverse('password-confirm'),
         data={
             'uid': utils.encode_uid(test_user.pk),
             'token': default_token_generator.make_token(test_user),
