@@ -12,10 +12,11 @@ User = get_user_model()
 
 
 @pytest.mark.django_db(transaction=False)
-def test_valid_user_activate(inactive_test_user):
+@pytest.mark.parametrize("trailing_slash", ['', '/'])
+def test_valid_user_activate(inactive_test_user, trailing_slash):
     client = APIClient()
     response = client.post(
-        path=reverse('user-activate'),
+        path=reverse('user-activate') + trailing_slash,
         data={
             'uid': utils.encode_uid(inactive_test_user.pk),
             'token': default_token_generator.make_token(inactive_test_user)

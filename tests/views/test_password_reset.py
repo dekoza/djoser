@@ -9,10 +9,11 @@ User = get_user_model()
 
 
 @pytest.mark.django_db(transaction=False)
-def test_valid_password_reset():
+@pytest.mark.parametrize("trailing_slash", ['', '/'])
+def test_valid_password_reset(trailing_slash):
     client = APIClient()
     response = client.post(
-        path=reverse('password-reset'),
+        path=reverse('password-reset') + trailing_slash,
         data={'email': 'test@localhost'})
 
     assert response.status_code == status.HTTP_204_NO_CONTENT

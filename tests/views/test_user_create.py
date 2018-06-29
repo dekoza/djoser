@@ -9,10 +9,11 @@ User = get_user_model()
 
 
 @pytest.mark.django_db(transaction=False)
-def test_valid_user_create():
+@pytest.mark.parametrize("trailing_slash", ['', '/'])
+def test_valid_user_create(trailing_slash):
     client = APIClient()
     response = client.post(
-        reverse('user-list'),
+        reverse('user-list') + trailing_slash,
         data={
             User.USERNAME_FIELD: 'test@localhost',
             'password': 'testing123',

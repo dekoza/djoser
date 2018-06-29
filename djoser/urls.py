@@ -40,11 +40,11 @@ class DjoserRouter(DefaultRouter):
 router = DjoserRouter()
 
 urlpatterns = [
+    url(r'^', include(router.urls)),
     url(r'^password/update/?$',
         views.PasswordUpdateView.as_view(), name='password-update'),
     url(r'^password/reset/?$',
         views.PasswordResetView.as_view(), name='password-reset'),
     url(r'^password/confirm/?$',
         views.PasswordResetConfirmView.as_view(), name='password-confirm'),
-    url(r'^', include(router.urls)),
 ]

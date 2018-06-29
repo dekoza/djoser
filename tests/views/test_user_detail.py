@@ -9,10 +9,11 @@ User = get_user_model()
 
 
 @pytest.mark.django_db(transaction=False)
-def test_valid_user_detail(test_user):
+@pytest.mark.parametrize("trailing_slash", ['', '/'])
+def test_valid_user_detail(test_user, trailing_slash):
     client = APIClient()
     client.force_login(test_user)
-    response = client.get(reverse('user-me'))
+    response = client.get(reverse('user-me') + trailing_slash)
 
     assert response.status_code == status.HTTP_200_OK
     assert response.json() == {

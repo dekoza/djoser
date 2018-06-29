@@ -9,11 +9,12 @@ User = get_user_model()
 
 
 @pytest.mark.django_db(transaction=False)
-def test_valid_password_update(test_user):
+@pytest.mark.parametrize("trailing_slash", ['', '/'])
+def test_valid_password_update(test_user, trailing_slash):
     client = APIClient()
     client.force_login(test_user)
     response = client.post(
-        path=reverse('password-update'),
+        path=reverse('password-update') + trailing_slash,
         data={
             'current_password': 'testing123',
             'new_password': 'new-password123'

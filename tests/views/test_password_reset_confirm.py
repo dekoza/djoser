@@ -12,10 +12,11 @@ User = get_user_model()
 
 
 @pytest.mark.django_db(transaction=False)
-def test_valid_password_reset_confirm(test_user):
+@pytest.mark.parametrize("trailing_slash", ['', '/'])
+def test_valid_password_reset_confirm(test_user, trailing_slash):
     client = APIClient()
     response = client.post(
-        path=reverse('password-confirm'),
+        path=reverse('password-confirm') + trailing_slash,
         data={
             'uid': utils.encode_uid(test_user.pk),
             'token': default_token_generator.make_token(test_user),

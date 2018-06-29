@@ -9,11 +9,12 @@ User = get_user_model()
 
 
 @pytest.mark.django_db(transaction=False)
-def test_valid_user_update_with_trailing_slash(test_user):
+@pytest.mark.parametrize("trailing_slash", ['', '/'])
+def test_valid_user_update_with_trailing_slash(test_user, trailing_slash):
     client = APIClient()
     client.force_login(test_user)
     response = client.patch(
-        reverse('user-detail', kwargs=dict(pk=test_user.pk)),
+        reverse('user-detail', kwargs=dict(pk=test_user.pk)) + trailing_slash,
         data={'email': 'new-email@localhost'}
     )
     assert response.status_code == status.HTTP_200_OK

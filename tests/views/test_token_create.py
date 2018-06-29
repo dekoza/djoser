@@ -9,7 +9,8 @@ User = get_user_model()
 
 
 @pytest.mark.django_db(transaction=False)
-def test_valid_token_create(test_user, settings):
+@pytest.mark.parametrize("trailing_slash", ['', '/'])
+def test_valid_token_create(test_user, settings, trailing_slash):
     from djoser.conf import settings as djoser_settings
 
     settings.DJOSER = dict(
@@ -20,7 +21,7 @@ def test_valid_token_create(test_user, settings):
     djoser_settings.SERIALIZERS['token'].Meta.model = token_model
 
     client = APIClient()
-    response = client.post(reverse('token-list'), {
+    response = client.post(reverse('token-list') + trailing_slash, {
         User.USERNAME_FIELD: 'test',
         'password': 'testing123',
     })

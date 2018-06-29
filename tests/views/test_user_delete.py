@@ -9,11 +9,12 @@ User = get_user_model()
 
 
 @pytest.mark.django_db(transaction=False)
-def test_valid_user_delete(test_user):
+@pytest.mark.parametrize("trailing_slash", ['', '/'])
+def test_valid_user_delete(test_user, trailing_slash):
     client = APIClient()
     client.force_login(test_user)
     response = client.delete(
-        reverse('user-detail', kwargs=dict(pk=test_user.pk)),
+        reverse('user-detail', kwargs=dict(pk=test_user.pk)) + trailing_slash,
         {'current_password': 'testing123'}, format='json'
     )
 

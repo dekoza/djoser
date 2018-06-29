@@ -9,11 +9,12 @@ User = get_user_model()
 
 
 @pytest.mark.django_db(transaction=False)
-def test_valid_username_update(test_user):
+@pytest.mark.parametrize("trailing_slash", ['', '/'])
+def test_valid_username_update(test_user, trailing_slash):
     client = APIClient()
     client.force_login(test_user)
     response = client.post(
-        reverse('user-change-username'),
+        reverse('user-change-username') + trailing_slash,
         {User.USERNAME_FIELD: 'test-new', 'current_password': 'testing123'}
     )
 
@@ -21,11 +22,12 @@ def test_valid_username_update(test_user):
 
 
 @pytest.mark.django_db(transaction=False)
-def test_invalid_username_update_wrong_password(test_user):
+@pytest.mark.parametrize("trailing_slash", ['', '/'])
+def test_invalid_username_update_wrong_password(test_user, trailing_slash):
     client = APIClient()
     client.force_login(test_user)
     response = client.post(
-        reverse('user-change-username'),
+        reverse('user-change-username') + trailing_slash,
         {User.USERNAME_FIELD: 'test-new', 'current_password': 'invalid'}
     )
 
